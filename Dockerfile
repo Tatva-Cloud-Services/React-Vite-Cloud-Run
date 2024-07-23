@@ -2,7 +2,7 @@
 FROM node:20.10.0 as build
 
 # Set the working directory in the container
-WORKDIR /vbreddy-blog
+WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
