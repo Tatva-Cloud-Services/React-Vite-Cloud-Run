@@ -2,10 +2,24 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import axios from "axios";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   const [count, setCount] = useState(0);
+  const [randomNumber, setRandomNumber] = useState(null);
 
+  const fetchRandomNumber = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/random-name`);
+      setRandomNumber(response.data.name);
+    } catch (error) {
+      console.error("Error fetching random number:", error);
+    }
+  };
+
+  console.log("🚀 ~ App ~ randomNumber:", randomNumber);
   return (
     <>
       <div>
@@ -16,9 +30,14 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Hello World</h1>
+      <h1>{randomNumber !== null ? randomNumber : "Hello World"}</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button
+          onClick={() => {
+            setCount((count) => count + 1);
+            fetchRandomNumber();
+          }}
+        >
           count is {count}
         </button>
         <p>
